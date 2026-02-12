@@ -51,6 +51,7 @@ const COLOR = {
     White: "#ffffff",
 };
 
+
 const INVISIBLE = "_INVISIBLE_";
 
 const PI_2 = Math.PI * 2;
@@ -66,6 +67,16 @@ const wordDotsMap = {};
 randomWords.forEach((word) => {
     wordDotsMap[word] = MyMath.literalLattice(word, 3, "Gabriola,华文琥珀", "90px");
 });
+
+function flashBackground(color) {
+    document.body.style.background = color;
+    document.body.style.transition = "background 0.5s ease";
+
+    setTimeout(() => {
+        document.body.style.background = "#000"; // về lại nền cũ
+    }, 500);
+}
+
 
 // Ảnh dùng cho hiệu ứng nổ (hiển thị hình ảnh ngẫu nhiên tại điểm nổ)
 const imageSources = [
@@ -1177,6 +1188,7 @@ const strobeShell = (size = 1) => {
 
 const palmShell = (size = 1) => {
     const color = randomColor();
+    flashBackground(color);
     const thick = Math.random() < 0.5;
     return {
         shellSize: size,
@@ -1190,6 +1202,7 @@ const palmShell = (size = 1) => {
 
 const ringShell = (size = 1) => {
     const color = randomColor();
+    flashBackground(color);
     const pistil = Math.random() < 0.75;
     return {
         shellSize: size,
@@ -1274,6 +1287,7 @@ const crackleShell = (size = 1) => {
 
 const horsetailShell = (size = 1) => {
     const color = randomColor();
+    flashBackground(color);
     return {
         shellSize: size,
         horsetail: true,
@@ -3287,3 +3301,34 @@ if (IS_HEADER) {
         });
     }, 0);
 }
+
+const audio = document.getElementById("bg-music");
+const title = document.querySelector(".newyear-text");
+
+const audioContext = new(window.AudioContext || window.webkitAudioContext)();
+const source = audioContext.createMediaElementSource(audio);
+const analyser = audioContext.createAnalyser();
+
+source.connect(analyser);
+analyser.connect(audioContext.destination);
+
+analyser.fftSize = 256;
+
+const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+function animateTitle() {
+    requestAnimationFrame(animateTitle);
+
+    analyser.getByteFrequencyData(dataArray);
+
+    let avg = dataArray.reduce((a, b) => a + b) / dataArray.length;
+
+    let scale = 1 + avg / 400;
+
+    title.style.transform = `translateX(-50%) scale(${scale})`;
+}
+
+audio.addEventListener("play", () => {
+    audioContext.resume();
+    animateTitle();
+});

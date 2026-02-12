@@ -6,358 +6,606 @@ Gitee：https://gitee.com/nianbroken/Firework_Simulator
 简而言之，你可以自由使用、修改和分享本项目的代码，但前提是在其衍生作品中必须保留原始许可证和版权信息，并且必须以相同的许可证发布所有修改过的代码。
 */
 
+:root {
+    --main-glow: 0 0 8px #ff4da6, 0 0 15px #ff4da6, 0 0 25px #ff1493;
+}
+
+:root {
+    --primary: #ff4da6;
+    --secondary: #00eaff;
+    --accent: #ffd166;
+    --bg1: #1a1a2e;
+    --bg2: #16213e;
+    --bg3: #0f3460;
+    --bg4: #2c003e;
+}
+
+
 /* 自定义滚动条样式 */
+
 ::-webkit-scrollbar {
-	/* 选择整体滚动条 */
-	width: 0px; /* 设置滚动条的宽度 */
-}
-
-::-webkit-scrollbar-track {
-	/* 选择滚动条背景 */
-	background: #f1f1f1; /* 设置滚动条背景颜色 */
-}
-
-::-webkit-scrollbar-thumb {
-	/* 选择滚动条手柄 */
-	background: #888; /* 设置滚动条手柄的颜色 */
-}
-
-::-webkit-scrollbar-thumb:hover {
-	/* 鼠标悬停时选择滚动条手柄 */
-	background: #555; /* 设置鼠标悬停时滚动条手柄的颜色 */
+    /* 选择整体滚动条 */
+    width: 0px;
+    /* 设置滚动条的宽度 */
 }
 
 * {
-	position: relative;
-	box-sizing: border-box;
+    position: relative;
+    box-sizing: border-box;
 }
 
 html,
 body {
-	height: 100%;
+    height: 100%;
 }
 
 html {
-	background-color: #000;
+    background-color: #000;
 }
 
 body {
-	overflow: hidden;
-	color: rgba(255, 255, 255, 0.5);
-	font-family: "Dancing Script", cursive;
-	line-height: 1.25;
-	letter-spacing: 0.06em;
+    overflow: hidden;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: "Dancing Script", cursive;
+    line-height: 1.25;
+    letter-spacing: 0.06em;
 }
 
 .hide {
-	opacity: 0;
-	visibility: hidden;
+    visibility: hidden;
 }
 
 .remove {
-	display: none !important;
+    display: none !important;
 }
 
 .blur {
-	filter: blur(12px);
+    filter: blur(12px);
 }
 
 .container {
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /* đổi center thành flex-start */
+    padding-top: 100px;
+    /* đẩy toàn bộ xuống */
 }
 
 .loading-init {
-	width: 100%;
-	align-self: center;
-	text-align: center;
-	text-transform: uppercase;
+    width: 100%;
+    align-self: center;
+    text-align: center;
+    text-transform: uppercase;
 }
+
 .loading-init__header {
-	font-size: 2.2em;
+    font-size: 2.2em;
 }
+
 .loading-init__status {
-	margin-top: 1em;
-	font-size: 0.8em;
-	opacity: 0.75;
+    margin-top: 1em;
+    font-size: 0.8em;
 }
 
 .stage-container {
-	overflow: hidden;
-	box-sizing: initial;
-	border: 1px solid #222;
-	margin: -1px;
+    position: fixed;
+    inset: 0;
+    z-index: 1;
 }
+
 @media (max-width: 840px) {
-	.stage-container {
-		border: none;
-		margin: 0;
-	}
+    .stage-container {
+        margin: 0;
+    }
 }
 
 .canvas-container {
-	width: 100%;
-	height: 100%;
-	transition: filter 0.3s;
+    width: 100%;
+    height: 100%;
+    transition: filter 0.3s;
 }
+
 .canvas-container canvas {
-	position: absolute;
-	mix-blend-mode: lighten;
-	transform: translateZ(0);
+    position: absolute;
+    transform: translateZ(0);
+    z-index: 1 !important;
+    /* top: 100%; */
 }
 
 .controls {
-	position: absolute;
-	top: 0;
-	width: 100%;
-	padding-bottom: 50px;
-	display: flex;
-	justify-content: space-between;
-	transition: opacity 0.3s, visibility 0.3s;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding-bottom: 50px;
+    display: flex;
+    justify-content: space-between;
+    transition: visibility 0.3s;
 }
+
 @media (min-width: 840px) {
-	.controls {
-		visibility: visible;
-	}
-	.controls.hide:hover {
-		opacity: 1;
-	}
+    .controls {
+        visibility: visible;
+    }
+    .controls.hide:hover {
+        opacity: 1;
+    }
 }
 
 .menu {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background-color: rgba(0, 0, 0, 0.42);
-	transition: opacity 0.3s, visibility 0.3s;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.42);
+    transition: visibility 0.3s;
 }
+
 .menu__inner-wrap {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	transition: opacity 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
+
 .menu__header {
-	margin-top: 5px;
-	margin-bottom: 8px;
-	font-size: 2em;
-	text-transform: uppercase;
+    margin-top: 5px;
+    margin-bottom: 8px;
+    font-size: 2em;
+    text-transform: uppercase;
 }
+
 .menu__subheader {
-	margin-bottom: 5px;
-	font-size: 0.86em;
-	opacity: 0.8;
+    margin-bottom: 5px;
+    font-size: 0.86em;
 }
+
 .menu form {
-	width: 100%;
-	max-width: 400px;
-	padding: 0 10px;
-	margin-right: 80px;
-	overflow: auto;
-	-webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 400px;
+    padding: 0 10px;
+    margin-right: 80px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
 }
+
 .menu .form-option {
-	display: flex;
-	align-items: center;
-	margin: 16px 0;
-	transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    margin: 16px 0;
 }
+
 .menu .form-option label {
-	display: block;
-	width: 50%;
-	padding-right: 12px;
-	text-align: right;
-	text-transform: uppercase;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
+    display: block;
+    width: 50%;
+    padding-right: 12px;
+    text-align: right;
+    text-transform: uppercase;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
-	.menu .form-option--select select {
-		display: block;
-		width: 50%;
-		height: 30px;
-		font-size: 1rem;
-		font-family: "Dancing Script", cursive;
-		color: rgba(255, 255, 255, 0.5);
-		letter-spacing: 0.06em;
-		background-color: transparent;
-		border: 1px solid rgba(255, 255, 255, 0.5);
-	}
+
+.menu .form-option--select select {
+    display: block;
+    width: 50%;
+    height: 30px;
+    font-size: 1rem;
+    font-family: "Dancing Script", cursive;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.06em;
+    background-color: transparent;
+}
+
 .menu .form-option--select select option {
-	background-color: black;
+    background-color: black;
 }
+
 .menu .form-option--checkbox input {
-	display: block;
-	width: 26px;
-	height: 26px;
-	margin: 0;
-	opacity: 0.5;
+    display: block;
+    width: 26px;
+    height: 26px;
+    margin: 0;
 }
+
 @media (max-width: 840px) {
-	.menu .form-option select,
-	.menu .form-option input {
-		outline: none;
-	}
+    .menu .form-option select,
+    .menu .form-option input {
+        outline: none;
+    }
 }
 
 .close-menu-btn {
-	position: absolute;
-	top: 0;
-	right: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
+
+
 /*This project is copyrighted by NianBroken!*/
+
 .btn {
-	opacity: 0.16;
-	width: 50px;
-	height: 50px;
-	display: flex;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	cursor: default;
-	transition: opacity 0.3s;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
 }
-.btn--bright {
-	opacity: 0.5;
-}
-@media (min-width: 840px) {
-	.btn:hover {
-		opacity: 0.32;
-	}
-	.btn--bright:hover {
-		opacity: 0.75;
-	}
-}
+
+@media (min-width: 840px) {}
+
 .btn svg {
-	display: block;
-	margin: auto;
+    display: block;
+    margin: auto;
 }
 
 .credits {
-	margin-top: auto;
-	margin-bottom: 10px;
-	padding-top: 6px;
-	font-size: 0.8em;
-	opacity: 0.75;
-	text-align: center;
+    margin-top: auto;
+    margin-bottom: 10px;
+    padding-top: 6px;
+    font-size: 0.8em;
+    text-align: center;
 }
+
 .credits a {
-	color: rgba(255, 255, 255, 0.5);
-	text-decoration: none;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
 }
+
 .credits a:hover,
 .credits a:active {
-	color: rgba(255, 255, 255, 0.75);
-	text-decoration: underline;
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: underline;
 }
 
 .help-modal {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	visibility: hidden;
-	transition-property: visibility;
-	transition-duration: 0.25s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    visibility: hidden;
+    transition-property: visibility;
+    transition-duration: 0.25s;
 }
+
 .help-modal__overlay {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	opacity: 0;
-	transition-property: opacity;
-	transition-timing-function: ease-in;
-	transition-duration: 0.25s;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transition-property: opacity;
+    transition-timing-function: ease-in;
+    transition-duration: 0.25s;
 }
+
+
 /*This project is copyrighted by NianBroken!*/
+
 .help-modal__dialog {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	max-width: 400px;
-	max-height: calc(100vh - 100px);
-	margin: 10px;
-	padding: 20px;
-	border-radius: 0.3em;
-	background-color: rgba(0, 0, 0, 0.4);
-	opacity: 0;
-	transform: scale(0.9, 0.9);
-	transition-property: opacity, transform;
-	transition-timing-function: ease-in;
-	transition-duration: 0.25s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    max-height: calc(100vh - 100px);
+    margin: 10px;
+    padding: 20px;
+    border-radius: 0.3em;
+    background-color: rgba(0, 0, 0, 0.4);
+    transform: scale(0.9, 0.9);
+    transition-property: opacity, transform;
+    transition-timing-function: ease-in;
+    transition-duration: 0.25s;
 }
+
 @media (min-width: 840px) {
-	.help-modal__dialog {
-		font-size: 1.25rem;
-		max-width: 500px;
-	}
+    .help-modal__dialog {
+        font-size: 1.25rem;
+        max-width: 500px;
+    }
 }
+
 .help-modal__header {
-	font-size: 1.75em;
-	text-transform: uppercase;
-	text-align: center;
+    font-size: 1.75em;
+    text-transform: uppercase;
+    text-align: center;
 }
+
 .help-modal__body {
-	overflow-y: auto;
-	-webkit-overflow-scrolling: touch;
-	margin: 1em 0;
-	padding: 1em 0;
-	border-top: 1px solid rgba(255, 255, 255, 0.25);
-	border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-	line-height: 1.5;
-	color: rgba(255, 255, 255, 0.75);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 1em 0;
+    padding: 1em 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.75);
 }
-	.help-modal__close-btn {
-		flex-shrink: 0;
-		outline: none;
-		border: none;
-		border-radius: 2px;
-		padding: 0.25em 0.75em;
-		margin-top: 0.36em;
-		font-family: "Dancing Script", cursive;
-		font-size: 1em;
-		color: rgba(255, 255, 255, 0.5);
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
-		background-color: rgba(255, 255, 255, 0.25);
-		transition: color 0.3s, background-color 0.3s;
-	}
+
+.help-modal__close-btn {
+    flex-shrink: 0;
+    outline: none;
+    border-radius: 2px;
+    padding: 0.25em 0.75em;
+    margin-top: 0.36em;
+    font-family: "Dancing Script", cursive;
+    font-size: 1em;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background-color: rgba(255, 255, 255, 0.25);
+    transition: color 0.3s, background-color 0.3s;
+}
+
 .help-modal__close-btn:hover,
 .help-modal__close-btn:active,
 .help-modal__close-btn:focus {
-	color: #fff;
-	background-color: #09f;
+    color: #fff;
+    background-color: #09f;
 }
+
 .help-modal.active {
-	visibility: visible;
-	transition-duration: 0.4s;
+    visibility: visible;
+    transition-duration: 0.4s;
 }
+
 .help-modal.active .help-modal__overlay {
-	opacity: 1;
-	transition-timing-function: ease-out;
-	transition-duration: 0.4s;
+    opacity: 1;
+    transition-timing-function: ease-out;
+    transition-duration: 0.4s;
 }
+
 .help-modal.active .help-modal__dialog {
-	opacity: 1;
-	transform: scale(1, 1);
-	transition-timing-function: ease-out;
-	transition-duration: 0.4s;
+    opacity: 1;
+    transform: scale(1, 1);
+    transition-timing-function: ease-out;
+    transition-duration: 0.4s;
+}
+
+.newyear-text {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+
+/* Dòng chính */
+
+.newyear-text h1,
+.newyear-text .year {
+    font-size: 54px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px #ffffff, 0 0 25px #ffffff, 0 0 50px #ff4da6, 0 0 80px #ff1493, 0 0 120px #ff1493;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
+}
+
+.newyear-text h1 {
+    font-size: 56px;
+    font-weight: 900;
+    color: #ffd6ec;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px #ff66cc, 0 0 30px #ff4da6, 0 0 60px #ff1493, 0 0 90px #ff1493;
+}
+
+.newyear-text::before {
+    content: "";
+    position: absolute;
+    inset: -20px;
+    background: rgba(0, 0, 0, 0.6);
+    filter: blur(15px);
+    z-index: -1;
+    border-radius: 20px;
+}
+
+.newyear-text::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient( 120deg, transparent, rgba(220, 64, 64, 0.833), transparent);
+    animation: shine 6s infinite;
+}
+
+.sub-text {
+    position: relative;
+    /* đổi từ fixed → relative */
+    margin-top: 30px;
+    /* tạo khoảng cách dưới ảnh */
+    text-align: center;
+    font-size: 26px;
+    color: #ffd6ec;
+    z-index: 5;
+    text-shadow: 0 0 8px #ff66cc;
+}
+
+.floating-box {
+    border: 2px solid var(--primary);
+    color: #ffffff;
+    text-shadow: var(--glow-main);
+    box-shadow: var(--glow-main);
+}
+
+.floating-box span,
+.floating-box p,
+.floating-box {
+    text-shadow: 0 0 4px var(--primary);
+    font-weight: 700;
+}
+
+
+/* Neon glow effect */
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px #ff4da6, 0 0 20px #ff4da6, 0 0 30px #ff1a75, 0 0 40px #ff1a75;
+    }
+    to {
+        text-shadow: 0 0 20px #ffff66, 0 0 30px #ffcc00, 0 0 40px #ffcc00, 0 0 50px #ffcc00;
+    }
+}
+
+
+/* Nhẹ nhàng bay lên xuống */
+
+@keyframes floatText {
+    0% {
+        transform: translateX(-50%) translateY(0px);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+    100% {
+        transform: translateX(-50%) translateY(0px);
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient( 135deg, hsl(260, 60%, 15%), hsl(300, 60%, 20%), hsl(220, 60%, 18%));
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.newyear-text::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    animation: shine 4s infinite;
+}
+
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+
+/* ============================= */
+
+
+/* CENTER IMAGE UNDER TITLE */
+
+
+/* ============================= */
+
+.center-image {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    z-index: 5;
+    /* nằm dưới marquee */
+}
+
+.center-image img {
+    width: 260px;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 77, 166, 0.6);
+    box-shadow: 0 0 20px rgba(255, 77, 166, 0.6), 0 0 40px rgba(255, 20, 147, 0.4);
+}
+
+html,
+body {
+    background: linear-gradient( 135deg, hsl(260, 60%, 15%), hsl(300, 60%, 20%), hsl(220, 60%, 18%));
+    background-size: 400% 400%;
+    animation: gradientMove 12s ease infinite;
+}
+
+.newyear-text,
+.center-image,
+.sub-text {
+    position: relative;
+    z-index: 10;
+}
+
+body.firework-effect {
+    transition: background 0.6s ease;
+}
+
+@keyframes bgFlash {
+    0% {
+        background-color: rgba(255, 0, 150, 0.15);
+    }
+    50% {
+        background-color: rgba(0, 150, 255, 0.15);
+    }
+    100% {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+}
+
+.center-image {
+    display: flex;
+    justify-content: center;
+    margin-top: 120px;
+    /* tăng số này để đẩy ảnh xuống */
+}
+
+body.firework-effect {
+    animation: bgFlash 0.6s ease;
+}
+
+@keyframes bgFlash {
+    0% {
+        background-color: rgba(255, 0, 150, 0.25);
+    }
+    50% {
+        background-color: rgba(0, 150, 255, 0.25);
+    }
+    100% {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
 }
